@@ -33,6 +33,14 @@ const checksForAverage = {
   yearly: 1
 };
 
+const checksPerYear = {
+  weekly: 52,
+  biWeekly: 36,
+  monthly: 12,
+  semiMonthly: 24,
+  yearly: 1
+};
+
 const wageTypes = {
   hourly: "hourly",
   salary: "salary"
@@ -71,26 +79,27 @@ function Data() {
   const [wageChangeDate, setWageChangeDate] = useState("1.2.2019");
   const [seasonalDays, setSeasonalDays] = useState();
   const [grossPayChecks, setGrossPayChecks] = useState([
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
   ]);
 
   const updatePayChecksNeeded = (evt, index) => {
     const checks = grossPayChecks.slice();
-    const newValue = parseFloat(evt.target.value) ? evt.target.value : "";
+    const newValue =
+      evt.target.value || checks[index] == 0 ? evt.target.value : 0;
     checks[index] = newValue;
-    console.log(grossPayChecks, newValue);
+    console.log("Check[index] " + checks[index]);
     setGrossPayChecks(checks);
   };
 
@@ -392,23 +401,42 @@ function ThreeMonthAvgCalc(props) {
   const getAverage = () => {
     let payCheckSum = 0;
     let payCheckAverage = 0;
+    let calc = "";
 
-    props.grossPayChecks.map((check, index) => {
+    calc = props.grossPayChecks.map((check, index) => {
       if (index >= props.checksForAverage[props.payFreq]) return;
       else {
-        payCheckAverage = payCheckSum / props.payFreq;
-        console.log("Adding to check");
+        payCheckSum += check;
+        return (
+          <span align="right">
+            + {parseFloat(check).toFixed(2)} <br />
+          </span>
+        );
       }
     });
-    return payCheckAverage;
+
+    console.log(payCheckSum);
+    payCheckAverage =
+      (payCheckSum / checksForAverage[props.payFreq]) *
+      checksPerYear[props.payFreq];
+
+    return (
+      <div>
+        {calc}
+        <p>= {payCheckAverage.toFixed(2)}</p>
+      </div>
+    );
   };
 
   return (
-    <>
+    <div align="center">
       <h3> This is the 3 Month Average Section</h3>
-      <p>There are {props.grossPayChecks.length} in the average. </p>
-      <p>{getAverage()}</p>
-    </>
+      <h4>
+        There are {checksForAverage[props.payFreq]} checks needed for the
+        average.{" "}
+      </h4>
+      {getAverage()}
+    </div>
   );
 }
 
