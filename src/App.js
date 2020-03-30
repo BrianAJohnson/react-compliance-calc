@@ -1,7 +1,20 @@
 import React, { useState } from "react";
 
-import { ThemeProvider } from "@material-ui/core/styles";
-import { Grid, Container, InputLabel, Input, Paper } from "@material-ui/core";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import {
+  Grid,
+  Container,
+  InputLabel,
+  Input,
+  Paper,
+  AppBar,
+  Toolbar,
+  Typography
+} from "@material-ui/core";
+
+import { teal } from "@material-ui/core/colors";
+
+import "./App.css";
 
 import YTDCalc from "./comps/YtdCalc";
 import ThreeMonthAvgCalc from "./comps/ThreeMonthAvgCalc";
@@ -12,6 +25,15 @@ import OverTimeData from "./comps/OverTimeData";
 import PayChangeData from "./comps/PayChangeData";
 import CommisionCalc from "./comps/CommisionData";
 import ShiftDiffData from "./comps/ShiftDiffData";
+import Switches from "./comps/Switches";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#1b7f66"
+    }
+  }
+});
 
 const checksForAverage = {
   weekly: 13,
@@ -28,8 +50,23 @@ const wageTypes = {
 
 function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={theme}>
       <div className="App">
+        <AppBar position="static" align="right">
+          <Toolbar variant="dense">
+            {/* <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton> */}
+            <Typography variant="h6" color="inherit">
+              I-Calc
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <h1 align="center">Estimated Annual Income Calculator</h1>
         <Data />
       </div>
@@ -41,23 +78,23 @@ function Data() {
   const [moveInDate, setMoveInDate] = useState(
     new Date(new Date().getFullYear(), 0, 1)
   );
-  const [currentWage, setCurentWage] = useState(14.0);
-  const [hoursPerWeek, setHoursPerWeek] = useState(40);
+  const [currentWage, setCurentWage] = useState();
+  const [hoursPerWeek, setHoursPerWeek] = useState();
   const [wageType, setWageType] = useState(wageTypes.hourly);
   const [payFreq, setPayFreq] = useState("monthly");
-  const [ytdPay, setYtdPay] = useState(31231.0);
+  const [ytdPay, setYtdPay] = useState();
   const [ytdStart, setYtdStart] = useState(
     new Date(new Date().getFullYear(), 0, 1)
   );
   const [ytdEnd, setYtdEnd] = useState(new Date());
-  const [overTimeRate, setOverTimeRate] = useState(16.0);
-  const [avgOverTimeHours, setAvgOverTimeHours] = useState(6);
+  const [overTimeRate, setOverTimeRate] = useState();
+  const [avgOverTimeHours, setAvgOverTimeHours] = useState();
   const [overTime, setOverTime] = useState(false);
   const [shiftDiff, setShiftDiff] = useState(false);
-  const [shiftDiffRate, setShiftDiffRate] = useState(15.0);
-  const [shiftDiffHours, setShiftDiffHours] = useState(6);
+  const [shiftDiffRate, setShiftDiffRate] = useState();
+  const [shiftDiffHours, setShiftDiffHours] = useState();
   const [commision, setCommision] = useState(false);
-  const [commisionRate, setCommisionRate] = useState(100.0);
+  const [commisionRate, setCommisionRate] = useState();
   const [commisionFreq, setCommisionFreq] = useState("weekly");
 
   const [payChange, setPayChange] = useState(false);
@@ -66,7 +103,7 @@ function Data() {
     new Date(new Date().getFullYear(), 0, 1)
   );
   const [seasonalDays, setSeasonalDays] = useState();
-  const [grossPayChecks, setGrossPayChecks] = useState(Array(13).fill(0));
+  const [grossPayChecks, setGrossPayChecks] = useState(Array(13).fill(""));
 
   const updatePayChecksNeeded = (evt, index) => {
     const checks = grossPayChecks.slice();
@@ -79,13 +116,24 @@ function Data() {
 
   return (
     <Container maxWidth="lg">
-      <h1 align="center">
-        Current Wage is ${currentWage} paid {wageType}. Paydays are {payFreq}
-      </h1>
+      {/* // -- Switches -- // */}
 
-      {/* // Wage Data Input // */}
+      <Grid container justify="center">
+        <Switches
+          overTime={overTime}
+          setOverTime={setOverTime}
+          payChange={payChange}
+          setPayChange={setPayChange}
+          commision={commision}
+          setCommision={setCommision}
+          shiftDiff={shiftDiff}
+          setShiftDiff={setShiftDiff}
+        />
+      </Grid>
 
-      <Grid container justify="center" spacing={6}>
+      {/* // -- Wage Data Input -- // */}
+
+      <Grid container justify="center">
         <WageInfo
           currentWage={currentWage}
           setCurentWage={setCurentWage}
@@ -98,7 +146,7 @@ function Data() {
 
       {/* // YTD Data Input  */}
 
-      <Grid container justify="center" spacing={6}>
+      <Grid container justify="center">
         <YtdData
           ytdPay={ytdPay}
           setYtdPay={setYtdPay}
@@ -111,69 +159,75 @@ function Data() {
 
       {/* --  OverTime Data Input -- */}
 
-      <Grid container spacing={6}>
-        <OverTimeData
-          overTimeRate={overTimeRate}
-          setOverTimeRate={setOverTimeRate}
-          avgOverTimeHours={avgOverTimeHours}
-          setAvgOverTimeHours={setAvgOverTimeHours}
-          overTime={overTime}
-          setOverTime={setOverTime}
-        />
+      <Grid container justify="center">
+        {overTime ? (
+          <OverTimeData
+            overTimeRate={overTimeRate}
+            setOverTimeRate={setOverTimeRate}
+            avgOverTimeHours={avgOverTimeHours}
+            setAvgOverTimeHours={setAvgOverTimeHours}
+            overTime={overTime}
+            setOverTime={setOverTime}
+          />
+        ) : null}
       </Grid>
 
       {/* --  Shift Diff Data Input -- */}
-
-      <Grid container spacing={6}>
-        <ShiftDiffData
-          shiftDiff={shiftDiff}
-          setShiftDiff={setShiftDiff}
-          shiftDiffRate={shiftDiffRate}
-          setShiftDiffRate={setShiftDiffRate}
-          shiftDiffHours={shiftDiffHours}
-          setShiftDiffHours={setShiftDiffHours}
-        />
+      <Grid container justify="center">
+        {shiftDiff ? (
+          <ShiftDiffData
+            shiftDiff={shiftDiff}
+            setShiftDiff={setShiftDiff}
+            shiftDiffRate={shiftDiffRate}
+            setShiftDiffRate={setShiftDiffRate}
+            shiftDiffHours={shiftDiffHours}
+            setShiftDiffHours={setShiftDiffHours}
+          />
+        ) : null}
       </Grid>
 
       {/* -- Commision Data Input -- */}
-
-      <Grid container spacing={6}>
-        <CommisionCalc
-          commision={commision}
-          setCommision={setCommision}
-          commisionRate={commisionRate}
-          setCommisionRate={setCommisionRate}
-          commisionFreq={commisionFreq}
-          setCommisionFreq={setCommisionFreq}
-        />
+      <Grid container justify="center">
+        {commision ? (
+          <CommisionCalc
+            commision={commision}
+            setCommision={setCommision}
+            commisionRate={commisionRate}
+            setCommisionRate={setCommisionRate}
+            commisionFreq={commisionFreq}
+            setCommisionFreq={setCommisionFreq}
+          />
+        ) : null}
       </Grid>
 
       {/* -- Pay Change Input -- */}
-
-      <Grid container spacing={6}>
-        <PayChangeData
-          payChange={payChange}
-          setPayChange={setPayChange}
-          payChangeRate={payChangeRate}
-          setPayChangeRate={setPayChangeRate}
-          payChangeDate={payChangeDate}
-          setPayChangeDate={setPayChangeDate}
-          moveInDate={moveInDate}
-          setMoveInDate={setMoveInDate}
-        />
+      <Grid container justify="center">
+        {payChange ? (
+          <PayChangeData
+            payChange={payChange}
+            setPayChange={setPayChange}
+            payChangeRate={payChangeRate}
+            setPayChangeRate={setPayChangeRate}
+            payChangeDate={payChangeDate}
+            setPayChangeDate={setPayChangeDate}
+            moveInDate={moveInDate}
+            setMoveInDate={setMoveInDate}
+          />
+        ) : null}
       </Grid>
-      <hr />
-
       {/* -- Pay Stub Data -- */}
 
-      <Grid container justify="center" spacing={6}>
+      <Grid container justify="center">
         {grossPayChecks.map((check, index) => {
           if (index >= checksForAverage[payFreq]) {
-            return;
+            return null;
           }
           return (
             <Grid item key={index}>
-              <Paper style={{ padding: "20px", background: "#efe" }}>
+              <Paper
+                className="item-margin"
+                style={{ padding: "20px", background: "#efe" }}
+              >
                 <InputLabel>
                   <span>Paycheck #{index + 1}: </span>
                   <Input
@@ -189,16 +243,16 @@ function Data() {
       </Grid>
       <br />
       <hr />
-      <Grid container spacing={3}>
+      <Grid container>
         {/*  --  YTD Calc  --  */}
 
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} lg={4} className="calc">
           <YTDCalc ytdStart={ytdStart} ytdEnd={ytdEnd} ytdPay={ytdPay} />
         </Grid>
 
         {/*  --  Three Month Average Calc --  */}
 
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} lg={4} className="calc">
           <ThreeMonthAvgCalc
             payFreq={payFreq}
             grossPayChecks={grossPayChecks}
@@ -208,7 +262,7 @@ function Data() {
 
         {/*  --  Hourly Calc  -- */}
 
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} lg={4} className="calc">
           <HourlyCalc
             currentWage={currentWage}
             hoursPerWeek={hoursPerWeek}

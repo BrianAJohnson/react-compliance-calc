@@ -23,7 +23,7 @@ function ThreeMonthAvgCalc(props) {
 
   const showThreeMonthAvg = () => {
     const checks = props.grossPayChecks.map((check, index) => {
-      if (index >= props.checksForAverage[props.payFreq]) return;
+      if (index >= props.checksForAverage[props.payFreq]) return null;
       else {
         payCheckSum += parseFloat(check);
         return (

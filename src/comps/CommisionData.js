@@ -23,7 +23,8 @@ function CommisionData(props) {
     if (commision) {
       return (
         <Fragment>
-          <Grid item>
+          <br />
+          <Grid item className="item-margin">
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="Commision-bonus">
                 Commision, Bonus, Tips
@@ -37,7 +38,7 @@ function CommisionData(props) {
               />
             </FormControl>
           </Grid>
-          <Grid item>
+          <Grid item className="item-margin">
             <FormControl>
               <FormLabel align="center">
                 Commision, bonus, Tips Frequency
@@ -83,7 +84,7 @@ function CommisionData(props) {
 
   return (
     <Fragment>
-      <Grid item md={3}>
+      {/* <Grid item md={3}>
         <FormControlLabel
           control={
             <Switch
@@ -92,12 +93,12 @@ function CommisionData(props) {
                 setCommision(e.target.checked);
               }}
               name="overTimeSwitch"
-              color="secondary"
+              color="primary"
             />
           }
           label="Commision, Bonus, Tips"
         />
-      </Grid>
+      </Grid> */}
       {usingCommision()}
     </Fragment>
   );

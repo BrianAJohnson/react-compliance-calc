@@ -29,7 +29,7 @@ function PayChangeData(props) {
     if (payChange) {
       return (
         <Fragment>
-          <Grid item>
+          <Grid item className="item-margin">
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="payRateChange">
                 Anticipated Pay Change
@@ -43,7 +43,7 @@ function PayChangeData(props) {
               />
             </FormControl>
           </Grid>
-          <Grid item>
+          <Grid item className="item-margin">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
@@ -56,7 +56,7 @@ function PayChangeData(props) {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item>
+          <Grid item className="item-margin">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
@@ -76,7 +76,7 @@ function PayChangeData(props) {
 
   return (
     <Fragment>
-      <Grid item md={3}>
+      {/* <Grid item md={3}>
         <FormControlLabel
           control={
             <Switch
@@ -85,12 +85,12 @@ function PayChangeData(props) {
                 setPayChange(e.target.checked);
               }}
               name="overTimeSwitch"
-              color="secondary"
+              color="primary"
             />
           }
           label="Anticipated Pay Change"
         />
-      </Grid>
+      </Grid> */}
       {usingPayChange()}
     </Fragment>
   );

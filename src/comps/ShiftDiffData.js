@@ -21,7 +21,7 @@ function ShiftDiffData(props) {
     if (shiftDiff) {
       return (
         <Fragment>
-          <Grid item>
+          <Grid item className="item-margin">
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="shiftDiffRate">
                 Shift Differential Rate
@@ -35,7 +35,7 @@ function ShiftDiffData(props) {
               />
             </FormControl>
           </Grid>
-          <Grid item>
+          <Grid item className="item-margin">
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="shiftDiffHours">
                 Shift Diff Hours Per Week
@@ -56,7 +56,7 @@ function ShiftDiffData(props) {
 
   return (
     <Fragment>
-      <Grid item md={3}>
+      {/* <Grid item md={3}>
         <FormControlLabel
           control={
             <Switch
@@ -65,12 +65,12 @@ function ShiftDiffData(props) {
                 setShiftDiff(e.target.checked);
               }}
               name="overTimeSwitch"
-              color="secondary"
+              color="primary"
             />
           }
           label="Shift Differential"
         />
-      </Grid>
+      </Grid> */}
       {usingShiftDiff()}
     </Fragment>
   );

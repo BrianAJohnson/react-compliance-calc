@@ -21,6 +21,10 @@ function getWeeks(days, weeks) {
   return [first, last];
 }
 
+function formatMoney(amt) {
+  return amt.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
 function HourlyCalc(props) {
   // -- Hourly Variables -- //
   const currentWage = props.currentWage
@@ -334,14 +338,24 @@ function HourlyCalc(props) {
       return (
         <Fragment>
           <hr />
-          <Typography>{annualWage} +</Typography>
-          {payChange ? <Typography>{payChangeTotal} +</Typography> : null}
-          {overTime ? <Typography>{annualOt} +</Typography> : null}
-          {shiftDiff ? <Typography>{shiftDiffTotal} +</Typography> : null}
-          {commision ? <Typography>{commisionTotal} +</Typography> : null}
           {payChange || overTime || shiftDiff || commision ? (
-            <Typography>{grandTotal.toFixed(2)} *</Typography>
+            <Typography>{formatMoney(annualWage)} +</Typography>
           ) : null}
+          {payChange ? (
+            <Typography>{formatMoney(payChangeTotal)} +</Typography>
+          ) : null}
+          {overTime ? <Typography>{formatMoney(annualOt)} +</Typography> : null}
+          {shiftDiff ? (
+            <Typography>{formatMoney(shiftDiffTotal)} +</Typography>
+          ) : null}
+          {commision ? (
+            <Typography>{formatMoney(commisionTotal)} +</Typography>
+          ) : null}
+          {payChange || overTime || shiftDiff || commision ? (
+            <Typography>{formatMoney(grandTotal.toFixed(2))} *</Typography>
+          ) : (
+            <Typography>{formatMoney(annualWage)} *</Typography>
+          )}
         </Fragment>
       );
     }
@@ -362,13 +376,17 @@ function HourlyCalc(props) {
           background: "#fffde7"
         }}
       >
-        {showWeeksCalc()}
-        {showHourlyCalc()}
-        {showPayChangeCalc()}
-        {showOverTimeCalc()}
-        {showShiftDiffCalc()}
-        {showCommisionCalc()}
-        {showTotal()}
+        {annualWage > 0 ? (
+          <Fragment>
+            {showWeeksCalc()}
+            {showHourlyCalc()}
+            {showPayChangeCalc()}
+            {showOverTimeCalc()}
+            {showShiftDiffCalc()}
+            {showCommisionCalc()}
+            {showTotal()}
+          </Fragment>
+        ) : null}
       </Paper>
     </Fragment>
   );

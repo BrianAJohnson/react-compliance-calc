@@ -23,7 +23,7 @@ function YtdData(props) {
 
   return (
     <Fragment>
-      <Grid item>
+      <Grid item className="item-margin">
         <FormControl fullWidth variant="outlined">
           <InputLabel htmlFor="grossYtdPay">Gross Year to Date Pay</InputLabel>
           <OutlinedInput
@@ -35,7 +35,7 @@ function YtdData(props) {
           />
         </FormControl>
       </Grid>
-      <Grid item>
+      <Grid item className="item-margin">
         <FormControl fullWidth variant="outlined">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
@@ -50,7 +50,7 @@ function YtdData(props) {
           </MuiPickersUtilsProvider>
         </FormControl>
       </Grid>
-      <Grid item>
+      <Grid item className="item-margin">
         <FormControl fullWidth variant="outlined">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker

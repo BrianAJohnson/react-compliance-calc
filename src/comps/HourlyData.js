@@ -20,7 +20,7 @@ function WageInfo(props) {
 
   return (
     <Fragment>
-      <Grid item>
+      <Grid item className="item-margin">
         <FormControl fullWidth variant="outlined">
           <InputLabel htmlFor="current-wages">Current Wage</InputLabel>
           <OutlinedInput
@@ -32,7 +32,7 @@ function WageInfo(props) {
           />
         </FormControl>
       </Grid>
-      <Grid item>
+      <Grid item className="item-margin">
         <FormControl fullWidth variant="outlined">
           <InputLabel>Average Hours Per Week</InputLabel>
           <OutlinedInput
@@ -43,7 +43,7 @@ function WageInfo(props) {
           />
         </FormControl>
       </Grid>
-      <Grid item>
+      <Grid item className="item-margin">
         <FormControl>
           <FormLabel align="center">Pay Frequency</FormLabel>
           <RadioGroup

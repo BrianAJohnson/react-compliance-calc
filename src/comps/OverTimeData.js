@@ -3,8 +3,8 @@ import React, { useState, Fragment } from "react";
 import {
   Grid,
   FormControl,
-  FormControlLabel,
-  Switch,
+  Fade,
+  Slide,
   InputLabel,
   OutlinedInput
 } from "@material-ui/core";
@@ -18,10 +18,10 @@ function OverTimeData(props) {
   const setOverTime = props.setOverTime;
 
   function usingOverTime() {
-    if (overTime) {
-      return (
-        <Fragment>
-          <Grid item>
+    return (
+      <Fragment>
+        <Slide direction="right" in={overTime} mountOnEnter unmountOnExit>
+          <Grid item className="item-margin">
             <FormControl variant="outlined">
               <InputLabel htmlFor="otRate">Overtime Rate</InputLabel>
               <OutlinedInput
@@ -33,7 +33,10 @@ function OverTimeData(props) {
               />
             </FormControl>
           </Grid>
-          <Grid item>
+        </Slide>
+
+        <Slide direction="left" in={overTime} mountOnEnter unmountOnExit>
+          <Grid item className="item-margin">
             <FormControl variant="outlined">
               <InputLabel htmlFor="avg-ot">Avg OT Hours Per Week</InputLabel>
               <OutlinedInput
@@ -45,21 +48,14 @@ function OverTimeData(props) {
               />
             </FormControl>
           </Grid>
-        </Fragment>
-      );
-    } else {
-      return (
-        <Fragment>
-          <Grid item></Grid>
-          <Grid item></Grid>
-        </Fragment>
-      );
-    }
+        </Slide>
+      </Fragment>
+    );
   }
 
   return (
     <Fragment>
-      <Grid item md={3}>
+      {/* <Grid item md={3}>
         <FormControlLabel
           control={
             <Switch
@@ -68,12 +64,12 @@ function OverTimeData(props) {
                 setOverTime(e.target.checked);
               }}
               name="overTimeSwitch"
-              color="secondary"
+              color="primary"
             />
           }
           label="Over Time"
         />
-      </Grid>
+      </Grid> */}
       {usingOverTime()}
     </Fragment>
   );
